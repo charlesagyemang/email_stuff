@@ -22,8 +22,7 @@ class OrganisationsController < ApplicationController
   end
 
   def send_email
-   @receipients = cookies[:email_token ]
-    render json: @receipients
+  
   end
 
 

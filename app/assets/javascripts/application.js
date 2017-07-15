@@ -27,8 +27,8 @@ var url = "/organisations/send_email";
   }
 
 
-         function getCookie(cname) {
-       var name = cname + "=";
+  function getCookie(cname) {
+      var name = cname + "=";
       var decodedCookie = decodeURIComponent(document.cookie);
       var ca = decodedCookie.split(';');
     for(var i = 0; i < ca.length; i++) {
@@ -47,31 +47,32 @@ var url = "/organisations/send_email";
 
 $(document).ready(function () {
 
-
-
-
-
-
-       // $('#recipient_id').val(getCookie("email_token"));
-
-
         $('input[type=checkbox]').click(function(){
             var output = $('input[type=checkbox]:checked').map(function(){ return this.value; }).get();
-            //arr = output;
-            console.log(JSON.stringify(output));
+            console.log(output);
             $('#email_id').attr("data" , JSON.stringify(output));
-            setCookies("email_token",  JSON.stringify(output) , 6000);
+            setCookies("email_token",  JSON.stringify(output)   , 6000);
 
         });
-            $('#email_id').click(function(){
-                 console.log($(this).attr("data"));
-                 console.log(getCookie);
-                $(location).attr('href',url);
+        $('#email_id').click(function(){
+             console.log($(this).attr("data"));
+             console.log(getCookie);
+            $(location).attr('href',url);
+            $('#recipient_id').val($(this).attr("data"));
+        });
 
-                 $('#recipient_id').val($(this).attr("data"));
-            } );
+        var unformattedArray = $.parseJSON(getCookie("email_token"));
+        var body = '{'
+        $.each(unformattedArray, function(ind, ele){
+          ele = ele.slice(1, ele.length-1);
+          body += ele + ","
+          console.log(ele);
 
-        //   console.log(arr);
+        })
+        body = body.slice(0, body.length-1) + '}'
+        setCookies("email_token",    body , 6000);
+
+        $("#to").attr("value", body);
 
 
 
